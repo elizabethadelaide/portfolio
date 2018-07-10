@@ -1,0 +1,142 @@
+html{
+  background:black;
+}
+body{
+  background:none;
+  color:white;
+  font-family: Arial;
+  z-index:1;
+}
+.background{
+  opacity:.7;
+  width:100px;
+  height:100px;
+  position:fixed;
+  pointer-events: none;
+  top:0;
+}
+
+#intro{
+  width:50%;
+  max-width:40em;
+  margin-bottom:20%;
+}
+#intro h1{
+  font-size:3em;
+  text-decoration-line: underline;
+
+}
+
+#nav{
+  float:right;
+  cursor:pointer;
+}
+#home{
+  color:red;
+}
+#skills{
+    color:#FFE205
+}
+#work{
+  color:#0D60FF;
+}
+
+button{
+ border: none;
+background:none;
+  color: #FFDF03;
+  -webkit-transition: color .5s; /* Safari */
+  transition: color .5s;
+  -webkit-transition: border-color .5s; /* Safari */
+  transition: border-color .5s;
+  margin-left:75%;
+
+}
+#nav button{
+  float:right;
+  font-size:4em;
+  cursor:pointer;
+}
+#nav button:hover{
+  color:#D197E8;
+}
+#skills:hover{
+  color:white;
+}
+#work:hover{
+  color:white;
+}
+.skillPage{
+  position:relative;
+}
+.skillType{
+  margin-top:3em;
+}
+
+.skillList{
+  background:#465C6B;
+  border-style:solid;
+  border-color:white;
+  margin-left:7%;
+  width:80%;
+  max-width:30em;
+  padding:5px;
+
+}
+.workPage{
+  position:relative;
+}
+.workTitle{
+  width:90%;
+  max-width:30em;
+  background:#690C0B;
+  border-style:solid;
+  border-color:white;
+  margin-top:5em;
+  padding:15px;
+  cursor:pointer;
+  -webkit-transition: background .5s; /* Safari */
+  transition: background .5s;
+}
+.workTitle:hover{
+  background: #E82C0C;
+}
+
+.workTitle button{
+  margin:0;
+  padding:2%;
+  color:white;
+  padding:5px;
+  z-index:0;
+}
+.genre{
+  font-size:1em;
+}
+.workPage{
+  z-index:10;
+  position:relative;
+}
+.entry{
+  z-index:10;
+  position:relative;
+}
+.workStuff{
+  z-index:10;
+  margin-top:3em;
+  border-style:solid;
+  border-color:white;
+  background:#690C0B;
+  margin-left:15%;
+  padding:5px;
+  width:80%;
+  max-width:40em;
+}
+.workStuff img{
+  max-width:100%;
+}
+.workStuff a{
+  color: orange;
+}
+.workStuff a:visited{
+  color: orange;
+}

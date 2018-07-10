@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>TRANSMORGIFY</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="stylesheet" href="/magstyle.css"/>
+	</head>
+	<body>
+
+      <h1 id="Title">
+        Please show me magenta, pleasee
+    </h1>
+
+    <!-- Can be removed-->
+     <video id="video" width="320" height="240" preload autoplay loop muted></video>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/94/three.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/tracking-min.js"></script>
+    <script
+			  src="https://code.jquery.com/jquery-3.3.1.min.js"
+			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			  crossorigin="anonymous"></script>
+
+		<script>
+
+
+			var container;
+			var camera, scene, raycaster, renderer;
+
+      var cubes = [];
+
+			var mouse = new THREE.Vector2(), INTERSECTED;
+			var radius = 500, theta = 0;
+			var frustumSize = 1000;
+
+			init();
+			animate();
+
+
+      //setup object tracker
+    window.onload = function() {
+      var tracker = new tracking.ColorTracker();
+      tracker.setMinDimension(5);
+      tracker.setMinGroupSize(10);
+      tracking.track('#video', tracker, { camera: true });
+      tracker.on('track', onColorMove);
+    };
+
+    var entropy = 1;
+
+      //mess up entropy on object move
+    function onColorMove(event){
+      if (event.data.length === 0) {
+        return;
+      }
+      var maxRect;
+      var maxRectArea = 0;
+      event.data.forEach(function(rect) {
+        if (rect.width * rect.height > maxRectArea){
+          maxRectArea = rect.width * rect.height;
+          maxRect = rect;
+        }
+      });
+      if (maxRectArea > 0) {
+        var rectCenterX = maxRect.x + (maxRect.width/2);
+        var rectCenterY = maxRect.y + (maxRect.height/2);
+        mouseX = (rectCenterX - 160) * (window.innerWidth/320) * 10;
+        mouseY = (rectCenterY - 120) * (window.innerHeight/240) * 10;
+        //context.clearRect(0, 0, canvas.width, canvas.height);
+        console.log("Magenta!", maxRectArea); //based on how much magenta, change entropy variable
+        entropy = ((maxRectArea - 60) / (100000 - 60)) * (0.04) + 1;
+      }
+      else {
+          entropy = 1;
+      }
+
+    }
+
+
+      //setup three scene
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				var info = document.createElement( 'div' );
+				info.style.position = 'absolute';
+				info.style.top = '10px';
+				info.style.width = '100%';
+				info.style.textAlign = 'center';
+				container.appendChild( info );
+
+				var aspect = window.innerWidth / window.innerHeight;
+				camera = new THREE.OrthographicCamera( frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, 1, 1000 );
+
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color( 0x000000 );
+
+        //good color combo
+				var light = new THREE.DirectionalLight( 0xff0000, 1 );
+				light.position.set( 1, 1, 1 ).normalize();
+				scene.add( light );
+
+        var light = new THREE.DirectionalLight(0x7b0e7f, 1);
+        light.position.set(0, 0, 10);
+        scene.add(light);
+
+        var light = new THREE.AmbientLight(0x8C078C, 0.7);
+        scene.add(light);
+
+        //some fun boxes
+				var geometry = new THREE.BoxBufferGeometry( 20, 20, 20 );
+
+				for ( var i = 0; i < 100; i ++ ) {
+
+					var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xf8C078C } ) );
+
+					object.position.x = Math.random() * 800 - 400;
+					object.position.y = Math.random() * 800 - 400;
+					object.position.z = Math.random() * 800 - 400;
+
+					object.rotation.x = Math.random() * 2 * Math.PI;
+					object.rotation.y = Math.random() * 2 * Math.PI;
+					object.rotation.z = Math.random() * 2 * Math.PI;
+
+					object.scale.x = 3*Math.random() + 1;
+					object.scale.y = 3*Math.random() + 1;
+					object.scale.z = 3*Math.random() + 1;
+
+					scene.add( object );
+
+          cubes.push(object);
+
+				}
+
+
+        //finalize
+				renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				container.appendChild(renderer.domElement);
+
+
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize, false );
+			}
+
+			function onWindowResize() {
+
+				var aspect = window.innerWidth / window.innerHeight;
+
+				camera.left   = - frustumSize * aspect / 2;
+				camera.right  =   frustumSize * aspect / 2;
+				camera.top    =   frustumSize / 2;
+				camera.bottom = - frustumSize / 2;
+
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+
+        //***********************************///
+        //Animation added
+        //visualize();
+
+
+        //mess up the cubes with entropy
+        var timer = Date.now() * 0.00000005*entropy;
+
+        for (var i = 0; i < cubes.length; i++){
+          cubes[i].position.set(
+            Math.cos( timer * entropy*3 + i*0.5*Math.log(entropy*10) ) * 700/(entropy^3),
+            Math.abs( Math.cos( timer * 4*entropy * i ) ) * 1500/(entropy^4) -200,
+            Math.sin( timer * 7*entropy + i *2) * 1300/(entropy^2)
+          );
+        }
+        //**************************************8//
+
+				render();
+				//stats.update();
+
+			}
+
+			function render() {
+
+				theta += 0.1;
+
+				camera.position.x = radius * Math.sin( THREE.Math.degToRad( theta*.8 ) );
+				camera.position.y = radius * Math.sin( THREE.Math.degToRad( theta*.9 ) );
+				camera.position.z = radius * Math.cos( THREE.Math.degToRad( theta ) );
+				camera.lookAt( scene.position );
+
+				camera.updateMatrixWorld();
+
+				// find intersections
+
+				//raycaster.setFromCamera( mouse, camera );
+
+				renderer.render( scene, camera );
+
+			}
+
+
+
+		</script>
+
+	</body>
+</html>

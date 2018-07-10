@@ -1,0 +1,17 @@
+body {
+      font-family: Arial;
+      background-color: #f0f0f0;
+      margin: 0px;
+      overflow: hidden;
+    }
+    #video, #canvas {
+  bottom: 0;
+    position: absolute;
+    z-index: 100;
+  }
+#Title{
+ position:absolute;
+  top:0;
+  color:#FF01CB;
+  text-shadow: 5px 5px #558ABB;
+}

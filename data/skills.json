@@ -1,0 +1,9 @@
+{"Programming Languages": "C, C++, Java, Python, Bash, MATLAB, Assembly",
+"Web Development": "HTML, CSS, PHP, Javascript, JQuery, SQL, AngularJS, ThreeJS, NodeJS, p5.js, Express, Coffeescript",
+"Platforms": "Android, Arduino, Raspberry Pi, Arm32, CentOS, ArchLinux, Fedora, Ubuntu, MacOS, Windows, RISC, MIPS",
+ "Hardware": "Analog Circuit Design, Digital Circuit Design, VLSI Layout, Network Analyzer, Solar Panel Design, Robotics, Tissue Engineering, Bluetooth, I2C, Stepper Motors, Brushless DC Motors",
+ "Mechanical": "Laser Cutting, CNC Programming, 3D Printing (FDM and STL)",
+ "Programs": "AutoCAD, SolidWorks, Fusion360, OpenFOAM, ParaView, Cadence, Office Products, Indesign, Inkscape, LaTeX, Markdown",
+ "Education": "Scratch, MIT AppInventor, Blockly, TinkerCAD",
+ "Currently Learning": "Vue, Phantomjs, Mocha"
+}

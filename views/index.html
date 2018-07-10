@@ -1,0 +1,112 @@
+
+
+<!DOCTYPE html>
+<html ng-app="liz">
+  <head>
+    <title>Elizabeth!</title>
+    <meta name="description" content="What Liz does">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body ng-controller="lizCtl" ng-style="myStyle">
+
+    <div ng-if="workPage" class="entry" ng-repeat="e in port.Entries | orderBy : getOrder">
+        <div class="entry" ng-repeat="x in e">
+
+          <!--Work Title------------------------------>
+          <div ng-click="x.Show=!x.Show" class="workTitle">
+
+            <button ng-style="buttonstyle(x)" ng-click="show(x)">
+              {{x.Title | uppercase}}
+            </button>
+
+            <!--<h2 class="genre" ng-style="styleGenre(x.Genre)">
+             {{x.Genre |uppercase}}
+           </h2>-->
+            <h3>
+              {{x.Caption}}
+            </h3>
+            <p ng-if="!((x.Tags ==null)|| (x.Tags == undefined) ||(x.Tags==''))">
+              {{x.Tags | lowercase}} | {{x.Year}} | {{x.Role | lowercase}}
+            </p>
+          </div>
+          <!---------------------------------------------------->
+
+        <div class="workStuff" ng-if="x.Show" ng-repeat="y in x.Content"
+          ng-style="workStuffStyle(y);" >
+          <div ng-repeat="(key, value) in y">
+            <p ng-if="key=='Paragraph'">
+              {{value}}
+            </p>
+            <img ng-if="key=='Image'" ng-src='/img/{{value}}'/>
+            <h3 ng-if="key=='Section'">
+              {{value}}
+            </h3>
+            <p ng-if="key=='Link'"><a href="{{value}}">{{value}}</a></p>
+          </div>
+
+        </div>
+      </div>
+      </div>
+
+      <div ng-if="skillPage">
+        <div ng-repeat="(key, value) in skills">
+          <div class="skillType">
+            <h1>
+              {{key}}
+            </h1>
+          </div>
+          <div class="skillList">
+            <p>
+              {{value}}
+            </p>
+          </div>
+        </div>
+      </div>
+
+
+    <img class="background" ng-src="{{bgone}}"/>
+
+    <img class="background" ng-src="{{bgtwo}}"/>
+
+<div ng-if="frontPage">
+
+<div id="intro">
+
+<h1>
+  Liz designs circuits, writes programs, develops workflow, manages projects, creates curriculum, teaches classes,
+  creates filters, uses CAD, writes poetry, connects sensors, creates mechanical systems, inspires students,
+  and learns and learns.
+</h1>
+</div>
+
+
+</div>
+
+
+
+
+
+    <div id="nav">
+      <button id="home" ng-click="navHome()" ng-if="!frontPage">
+        Just Liz
+      </button>
+      <button id="skills" ng-click="navSkills()" ng-if="!skillPage">
+        Some skills
+      </button>
+      <button id="work" ng-click="navWork()" ng-if="!workPage">
+        Some work
+      </button>
+    </div>
+
+
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
+            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="/client.js"></script>
+  </body>
+</html>
